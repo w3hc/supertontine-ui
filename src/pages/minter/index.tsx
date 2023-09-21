@@ -1,11 +1,11 @@
-import { Heading, Button, Link } from '@chakra-ui/react'
-import { Head } from '../components/layout/Head'
+import { Heading, Button } from '@chakra-ui/react'
+import { Head } from '../../components/layout/Head'
 // import Image from 'next/image'
-import { LinkComponent } from '../components/layout/LinkComponent'
+import { LinkComponent } from '../../components/layout/LinkComponent'
 import { useState, useEffect } from 'react'
 import { useFeeData, useSigner, useAccount, useBalance, useNetwork } from 'wagmi'
 import { ethers } from 'ethers'
-import { NFT_CONTRACT_ADDRESS, NFT_CONTRACT_ABI } from '../lib/consts'
+import { NFT_CONTRACT_ADDRESS, NFT_CONTRACT_ABI } from '../../lib/consts'
 import useSound from 'use-sound' // https://www.joshwcomeau.com/react/announcing-use-sound-react-hook/
 const stevie = 'https://bafybeicxvrehw23nzkwjcxvsytimqj2wos7dhh4evrv5kscbbj6agilcsy.ipfs.w3s.link/another-star.mp3'
 
@@ -66,69 +66,51 @@ export default function Home() {
       <Head />
 
       <main>
-        {/* <Heading as="h2">Supertontine v0.1.0</Heading>
-        <br /> */}
-        <p>Bienvenue chez Supertontine!</p>
+        <Heading as="h2">Basic Minter</Heading>
         <br />
+        <p>Welcome to Basic Minter!</p>
+
         {isDisconnected ? (
           <>
             <br />
-            <p>Veuillez cliquer sur le bouton &quot;Login&quot; (en haut à droite).</p>
+            <p>Please connect your wallet if you want to mint.</p>
           </>
         ) : (
           <>
-            <p>
-              Vous êtes sur un testnet d&apos;Ethereum appelé <strong>Goerli</strong> et votre wallet indique un solde de
-              <strong> {userBal}</strong>. Vous pouvez créer votre tontine onchain en quelques minutes.{' '}
-            </p>
+            <br />
+
+            <p>You&apos;re about to mint 1 NFT on Ethereum Goerli Testnet.</p>
             <br />
             <p>
-              La tontine est une pratique traditionnelle qu&apos;on retrouve notamment en Afrique et en Asie. Elle incite à l&apos;épargne et
-              encourage les participants dans la réalisation de leurs projets. Supertontine propose d&apos;améliorer la gestion d&lsquo;une tontine en
-              la rendant plus fluide, plus vérifiable et plus sûre.
+              You&apos;re connected to <strong>Ethereum Goerli Testnet</strong> and your wallet currently holds
+              <strong> {userBal}</strong>. You can go ahead and click on the &apos;Mint&apos; button below: you will be invited to sign your
+              transaction.{' '}
             </p>
           </>
         )}
+
         <br />
         {!loading ? (
           !txLink ? (
-            <>
-              <Link>
-                <Button colorScheme="green" variant="outline" onClick={mint}>
-                  Je crée ma tontine onchain
-                </Button>
-              </Link>
-
-              <Link href="/tontine-alpha">
-                <Button ml={4} colorScheme="blue" variant="outline">
-                  Voir une tontine
-                </Button>
-              </Link>
-            </>
+            <Button colorScheme="green" variant="outline" onClick={mint}>
+              Mint
+            </Button>
           ) : (
             <Button disabled colorScheme="green" variant="outline" onClick={mint}>
-              Tontine créée !
+              Mint
             </Button>
           )
         ) : (
-          <>
-            <Button isLoading colorScheme="green" loadingText="Déploiement de la tontine..." variant="outline">
-              Je crée ma tontine onchain
-            </Button>
-            <Link href="/tontine-alpha">
-              <Button ml={4} colorScheme="blue" variant="outline">
-                Voir une tontine
-              </Button>
-            </Link>
-          </>
+          <Button isLoading colorScheme="green" loadingText="Minting" variant="outline">
+            Mint
+          </Button>
         )}
-        <br />
 
         {txLink && (
           <>
             <br />
             <br />
-            <p>Voir la transaction de création de la tontine :</p>
+            <p>Done! You can view your transaction on Etherscan:</p>
             <br />
             <LinkComponent target="blank" href={txLink}>
               {txLink}
@@ -138,17 +120,9 @@ export default function Home() {
         <br />
         <br />
         {txLink && (
-          <>
-            <Button colorScheme="red" variant="outline" onClick={() => stop()}>
-              Arrêter la musique
-            </Button>
-            <br />
-            <Link href="/tontine-alpha">
-              <Button mt={5} colorScheme="blue" variant="outline">
-                Voir une tontine
-              </Button>
-            </Link>
-          </>
+          <Button colorScheme="red" variant="outline" onClick={() => stop()}>
+            Stop the music
+          </Button>
         )}
         {/* <Image height="800" width="800" alt="contract-image" src="/thistle-contract-feb-15-2023.png" /> */}
       </main>
